@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_qr_reader/qrcode_reader_view.dart';
 
 class ScanViewDemo extends StatefulWidget {
-  ScanViewDemo({Key key}) : super(key: key);
+  ScanViewDemo({Key? key}) : super(key: key);
 
   @override
   _ScanViewDemoState createState() => new _ScanViewDemoState();
@@ -30,13 +30,13 @@ class _ScanViewDemoState extends State<ScanViewDemo> {
     );
   }
 
-  Future onScan(String data) async {
+  Future onScan(String? data) async {
     await showCupertinoDialog(
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
           title: Text("扫码结果"),
-          content: Text(data),
+          content: Text(data!),
           actions: <Widget>[
             CupertinoDialogAction(
               child: Text("确认"),
@@ -46,7 +46,7 @@ class _ScanViewDemoState extends State<ScanViewDemo> {
         );
       },
     );
-    _key.currentState.startScan();
+    _key.currentState!.startScan();
   }
 
   @override

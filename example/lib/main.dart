@@ -27,16 +27,16 @@ class _MyAppState extends State<MyApp> {
 }
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => new _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  QrReaderViewController _controller;
+  QrReaderViewController? _controller;
   bool isOk = false;
-  String data;
+  String? data;
   @override
   void initState() {
     super.initState();
@@ -95,16 +95,16 @@ class _HomePageState extends State<HomePage> {
             MaterialButton(
                 onPressed: () {
                   assert(_controller != null);
-                  _controller.setFlashlight();
+                  _controller!.setFlashlight();
                 },
                 child: Text("切换闪光灯")),
             MaterialButton(
                 onPressed: () {
                   assert(_controller != null);
-                  _controller.startCamera(onScan);
+                  _controller!.startCamera(onScan);
                 },
                 child: Text("开始扫码（暂停后）")),
-            if (data != null) Text(data),
+            if (data != null) Text(data!),
             if (isOk)
               Container(
                 width: 320,
@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                   height: 350,
                   callback: (container) {
                     this._controller = container;
-                    _controller.startCamera(onScan);
+                    _controller!.startCamera(onScan);
                   },
                 ),
               )
@@ -124,12 +124,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void onScan(String v, List<Offset> offsets) {
+  void onScan(String? v, List<Offset> offsets) {
     print([v, offsets]);
     setState(() {
       data = v;
     });
-    _controller.stopCamera();
+    _controller!.stopCamera();
   }
 
   @override
