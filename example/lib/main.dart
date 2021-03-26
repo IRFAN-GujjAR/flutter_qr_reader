@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
@@ -49,12 +51,13 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            FlatButton(
+            MaterialButton(
               onPressed: () async {
-                Map<PermissionGroup, PermissionStatus> permissions =
-                    await PermissionHandler().requestPermissions([PermissionGroup.camera]);
+                Map<Permission, PermissionStatus> permissions =
+                    await [Permission.camera].request();
                 print(permissions);
-                if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
+                if (permissions[Permission.camera] ==
+                    PermissionStatus.granted) {
                   showDialog(
                     context: context,
                     builder: (context) {
@@ -71,29 +74,31 @@ class _HomePageState extends State<HomePage> {
               child: Text("请求权限"),
               color: Colors.blue,
             ),
-            FlatButton(
+            MaterialButton(
               onPressed: () async {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ScanViewDemo()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ScanViewDemo()));
               },
               child: Text("独立UI"),
             ),
-            FlatButton(
+            MaterialButton(
                 onPressed: () async {
-                  var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+                  var image =
+                      await ImagePicker().getImage(source: ImageSource.gallery);
                   if (image == null) return;
-                  final rest = await FlutterQrReader.imgScan(image);
+                  final rest = await FlutterQrReader.imgScan(File(image.path));
                   setState(() {
                     data = rest;
                   });
                 },
                 child: Text("识别图片")),
-            FlatButton(
+            MaterialButton(
                 onPressed: () {
                   assert(_controller != null);
                   _controller.setFlashlight();
                 },
                 child: Text("切换闪光灯")),
-            FlatButton(
+            MaterialButton(
                 onPressed: () {
                   assert(_controller != null);
                   _controller.startCamera(onScan);
